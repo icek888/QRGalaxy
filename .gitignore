@@ -1,0 +1,6 @@
+.env
+qr_app.db
+static/qr_codes/*
+static/qr_codes/.gitkeep
+pycache/*
+__pycache__/*

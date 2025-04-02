@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Вход в профиль{% endblock %}
+
+{% block content %}
+  <h1>🔐 Вход</h1>
+
+  <form method="POST" action="/login" style="background-color: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 16px; box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); backdrop-filter: blur(5px); max-width: 400px; width: 100%;">
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" required placeholder="you@example.com" style="width: 100%; padding: 10px; border-radius: 8px; border: none; font-size: 1em;">
+
+    <label for="password" style="margin-top: 15px;">Пароль:</label>
+    <input type="password" name="password" id="password" required style="width: 100%; padding: 10px; border-radius: 8px; border: none; font-size: 1em;">
+
+    <button type="submit" style="margin-top: 20px; width: 100%; padding: 12px; border: none; border-radius: 8px; background-color: #6ff; color: #000; font-weight: bold; font-size: 1em; cursor: pointer;">Войти</button>
+
+    <div style="text-align: center; margin: 20px 0; color: #aaa;">или</div>
+
+    <a href="{{ url_for('google.login') }}" style="display: block; text-align: center; padding: 12px; background-color: #fff; color: #000; font-weight: bold; border-radius: 8px; text-decoration: none;">
+      🔗 Войти через Google
+    </a>
+
+    <p style="margin-top: 20px; font-size: 0.9em; color: #aaa; text-align: center;">
+      Нет аккаунта? <a href="/register" style="color: #6ff;">Зарегистрироваться</a>
+    </p>
+  </form>
+{% endblock %}

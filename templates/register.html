@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+  <h1>📝 Регистрация</h1>
+
+  <form method="POST" action="/register" style="background-color: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 16px; box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); backdrop-filter: blur(5px); max-width: 400px; width: 100%;">
+    <label for="username">Имя пользователя:</label>
+    <input type="text" name="username" id="username" required placeholder="Ваше Имя" style="width: 100%; padding: 10px; border-radius: 8px; border: none; font-size: 1em;">
+
+    <label for="email" style="margin-top: 15px;">Email:</label>
+    <input type="email" name="email" id="email" required placeholder="you@example.com" style="width: 100%; padding: 10px; border-radius: 8px; border: none; font-size: 1em;">
+
+    <label for="password" style="margin-top: 15px;">Пароль:</label>
+    <input type="password" name="password" id="password" required style="width: 100%; padding: 10px; border-radius: 8px; border: none; font-size: 1em;">
+
+    <button type="submit" style="margin-top: 20px; width: 100%; padding: 12px; border: none; border-radius: 8px; background-color: #6ff; color: #000; font-weight: bold; font-size: 1em; cursor: pointer;">Зарегистрироваться</button>
+
+    <p style="margin-top: 20px; font-size: 0.9em; color: #aaa; text-align: center;">
+      Уже есть аккаунт? <a href="/login" style="color: #6ff;">Войти</a>
+    </p>
+  </form>
+{% endblock %}

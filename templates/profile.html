@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+  <h1>👨‍🚀 Добро пожаловать, {{ user.username or 'Пользователь' }}</h1>
+
+  <div style="margin: 20px 0; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 16px; box-shadow: 0 0 15px rgba(0,255,255,0.1); max-width: 600px; width: 100%;">
+    <p><strong>Подписка:</strong> {{ user.subscription or 'Бесплатная' }}</p>
+    <p><strong>Количество генераций:</strong> {{ user.qr_count or 0 }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+    {% if user.subscription != 'PRO' %}
+      <a href="/subscribe" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: #f9c300; color: black; font-weight: bold; border-radius: 8px; text-decoration: none;">🚀 Перейти на PRO</a>
+    {% endif %}
+  </div>
+
+  <h2 style="margin-top: 40px;">🗂 История QR-кодов</h2>
+  <div style="display: flex; flex-direction: column; gap: 20px; max-width: 600px; width: 100%; margin-top: 20px;">
+    {% for qr in qr_codes %}
+      <div style="background: rgba(255, 255, 255, 0.03); padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <p style="margin: 0; font-size: 0.95em;"><strong>{{ qr.title or 'QR-код' }}</strong></p>
+          <p style="margin: 4px 0 0; font-size: 0.85em; color: #aaa;">{{ qr.created_at }}</p>
+        </div>
+        <a href="/qr/{{ qr.id }}" style="color: #6ff; font-size: 1.2em;">🔗</a>
+      </div>
+    {% else %}
+      <p style="color: #aaa;">Вы ещё не создавали QR-коды.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

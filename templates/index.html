@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}Генератор QR-кодов{% endblock %}
+
+{% block content %}
+<h1>🚀 Генератор QR-кодов</h1>
+
+<div style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between; align-items: flex-start;">
+
+  <!-- Генератор -->
+  <form method="POST" enctype="multipart/form-data"
+        style="flex: 1 1 400px; max-width: 500px; display: flex; flex-direction: column; gap: 14px;"
+        id="qr-form">
+
+    <!-- Содержание -->
+    <details open style="padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.05);">
+      <summary style="cursor: pointer; font-weight: bold;">🌐 Содержание</summary>
+      <label for="url">Ссылка:</label>
+      <input type="text" name="url" id="url" required placeholder="https://example.com"
+             style="width: 100%; padding: 10px; border-radius: 8px; border: none;">
+    </details>
+
+    <!-- Цвета -->
+    <details style="padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.05);">
+      <summary style="cursor: pointer; font-weight: bold;">🎨 Цвета</summary>
+      <label>Цвет кода:</label>
+      <input type="color" name="fill_color" id="fill_color" value="#000000"
+             style="width: 100%; height: 40px; border-radius: 8px;">
+
+      <label>Цвет фона:</label>
+      <input type="color" name="back_color" id="back_color" value="#ffffff"
+             style="width: 100%; height: 40px; border-radius: 8px;">
+
+      <label><input type="checkbox" id="custom_eye_colors" checked> Кастомные цвета для глаз</label>
+      <div id="eye-colors" style="display: flex; gap: 10px;">
+        <input type="color" id="eye_frame_color" value="#000000" title="Рамка глаза">
+        <input type="color" id="eye_ball_color" value="#000000" title="Зрачок">
+      </div>
+    </details>
+
+    <!-- Логотип -->
+    <details style="padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.05);">
+      <summary style="cursor: pointer; font-weight: bold;">🖼️ Логотип</summary>
+      <input type="file" name="logo" id="logo" accept="image/png">
+    </details>
+
+    <!-- Дизайн -->
+    <details style="padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.05); margin-bottom: 10px;">
+      <summary style="cursor: pointer; font-weight: bold;">🎛️ Настройки дизайна</summary>
+
+      <label>Body Shape:</label>
+      <select name="style" id="style"
+              style="width: 100%; padding: 10px; background-color: #0f1322; color: #6ff; border: none; border-radius: 8px;">
+        <option value="square">Square</option>
+        <option value="dots">Dots</option>
+        <option value="rounded">Rounded</option>
+        <option value="classy">Classy</option>
+        <option value="classy-rounded">Classy Rounded</option>
+        <option value="extra-rounded">Extra Rounded</option>
+      </select>
+
+      <label>Eye Frame Shape:</label>
+      <select name="eye_frame" id="eye_frame"
+              style="width: 100%; padding: 10px; background-color: #0f1322; color: #6ff; border: none; border-radius: 8px;">
+        <option value="square">Square</option>
+        <option value="circle">Circle</option>
+        <option value="extra-rounded">Extra Rounded</option>
+      </select>
+
+      <label>Eye Ball Shape:</label>
+      <select name="eye_ball" id="eye_ball"
+              style="width: 100%; padding: 10px; background-color: #0f1322; color: #6ff; border: none; border-radius: 8px;">
+        <option value="square">Square</option>
+        <option value="circle">Circle</option>
+        <option value="extra-rounded">Extra Rounded</option>
+      </select>
+    </details>
+
+    <!-- Кнопка -->
+    <button type="submit"
+            style="padding: 12px; border: none; border-radius: 8px;
+                   background-color: #6ff; color: #000; font-weight: bold; font-size: 1em; cursor: pointer;">
+      Сгенерировать QR
+    </button>
+  </form>
+
+  <!-- Превью -->
+  <div style="flex: 0 1 300px; max-width: 300px; text-align: center;
+              background: rgba(255,255,255,0.03); border-radius: 12px; padding: 20px;
+              box-shadow: 0 0 15px rgba(0,255,255,0.1); transition: transform 0.2s ease-in-out;"
+       id="preview-box">
+    <h3 style="margin-bottom: 16px;">🔍 Превью:</h3>
+    <div id="qr-preview" style="transition: opacity 0.3s ease-in-out;"></div>
+  </div>
+</div>
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+<script>
+  const qr = new QRCodeStyling({
+    width: 260,
+    height: 260,
+    type: "svg",
+    data: "https://example.com",
+    image: "",
+    dotsOptions: { color: "#000000", type: "square" },
+    backgroundOptions: { color: "#ffffff" },
+    cornersSquareOptions: { type: "square", color: "#000000" },
+    cornersDotOptions: { type: "square", color: "#000000" },
+  });
+
+  qr.append(document.getElementById("qr-preview"));
+
+  const preview = document.getElementById("qr-preview");
+
+  const updatePreview = () => {
+    preview.style.opacity = 0.3;
+    setTimeout(() => {
+      qr.update({
+        data: document.getElementById("url").value || "https://example.com",
+        dotsOptions: {
+          color: document.getElementById("fill_color").value,
+          type: document.getElementById("style").value,
+        },
+        backgroundOptions: {
+          color: document.getElementById("back_color").value,
+        },
+        cornersSquareOptions: {
+          type: document.getElementById("eye_frame").value,
+          color: document.getElementById("eye_frame_color").value,
+        },
+        cornersDotOptions: {
+          type: document.getElementById("eye_ball").value,
+          color: document.getElementById("eye_ball_color").value,
+        }
+      });
+      preview.style.opacity = 1;
+    }, 150);
+  };
+
+  document.querySelectorAll("#url, #fill_color, #back_color, #style, #eye_frame, #eye_ball, #eye_frame_color, #eye_ball_color")
+    .forEach(el => el.addEventListener("input", updatePreview));
+
+  updatePreview();
+</script>
+{% endblock %}

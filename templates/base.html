@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}QR Generator{% endblock %}</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(ellipse at top, #0d0d2b, #000000);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: 0 2px 10px rgba(0, 255, 255, 0.1);
+    }
+
+    .logo {
+      font-size: 1.5em;
+      color: #6ff;
+      font-weight: bold;
+      text-shadow: 0 0 8px #6ff;
+    }
+
+    .nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav a {
+      color: #6ff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .nav a:hover {
+      color: #4fd;
+    }
+
+    main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #888;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🚀 QR Galaxy</div>
+    <nav class="nav">
+      <a href="/">Генератор</a>
+
+      {# 👇 Вот здесь добавляем условную логику на основе Flask session #}
+      {% if session.get('logged_in') %}
+        <a href="/profile">Профиль</a>
+        <a href="/logout">Выйти</a>
+      {% else %}
+        <a href="/login">Войти</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    © 2025 Hotloads LLC · Карлен · Все права защищены
+  </footer>
+</body>
+</html>
